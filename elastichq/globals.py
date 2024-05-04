@@ -108,15 +108,15 @@ def init_task_pool(socketio):
 
 class CacheLoggingProxy(ProxyBackend):
     def set(self, key, value):
-        LOG.info('Setting Cache Key: %s' % key)
+        LOG.info('Setting Cache Key: %s', key)
         self.proxied.set(key, value)
 
     def get(self, key):
-        LOG.info('Getting Cache Key: %s' % key)
+        LOG.info('Getting Cache Key: %s', key)
         return self.proxied.get(key)
 
     def delete(self, key):
-        LOG.info('Deleting Cache Key: %s' % key)
+        LOG.info('Deleting Cache Key: %s', key)
         return self.proxied.delete(key)
 
 
