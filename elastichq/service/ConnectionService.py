@@ -1,9 +1,9 @@
+from security import safe_requests
+
 __author__ = 'royrusso'
 
 import json
 import urllib
-
-import requests
 from requests.exceptions import ConnectionError
 
 from elastichq.common.utils import string_to_bool
@@ -31,7 +31,7 @@ class ConnectionService:
 
     def ping(self, ip, port, scheme='http'):
         try:
-            response = requests.get(scheme + "://" + ip + ":" + port, timeout=3)
+            response = safe_requests.get(scheme + "://" + ip + ":" + port, timeout=3)
             return True
         except Exception as e:
             return False
@@ -78,16 +78,16 @@ class ConnectionService:
                     LOG.info("SSL enabled")
                     if verify_certs is False:
                         LOG.info("Verify Certs is False")
-                        response = requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
+                        response = safe_requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
                                                 timeout=REQUEST_TIMEOUT, verify=False,
                                                 cert=client_cert_credentials)
                     else:
                         LOG.info("Verify Certs is True")
-                        response = requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
+                        response = safe_requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
                                                 timeout=REQUEST_TIMEOUT, verify=ca_certs, cert=client_cert_credentials)
                 else:
                     LOG.info("SSL disabled")
-                    response = requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
+                    response = safe_requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
                                             timeout=REQUEST_TIMEOUT)
             else:
                 LOG.info("Basic Auth is False")
@@ -95,15 +95,15 @@ class ConnectionService:
                     LOG.info("SSL enabled")
                     if verify_certs is False:
                         LOG.info("Verify Certs is False")
-                        response = requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT,
+                        response = safe_requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT,
                                                 verify=False, cert=client_cert_credentials)
                     else:
                         LOG.info("Verify Certs is True")
-                        response = requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT,
+                        response = safe_requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT,
                                                 verify=ca_certs, cert=client_cert_credentials)
                 else:
                     LOG.info("SSL disabled")
-                    response = requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT)
+                    response = safe_requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT)
 
             if response.status_code == 401:
                 message = "Unable to create connection! Server returned 401 - UNAUTHORIZED: " + scheme + "://" + ip + \
