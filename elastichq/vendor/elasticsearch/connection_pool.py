@@ -1,7 +1,7 @@
 import time
-import random
 import logging
 import threading
+import secrets
 
 try:
     from Queue import PriorityQueue, Empty
@@ -50,7 +50,7 @@ class RandomSelector(ConnectionSelector):
     Select a connection at random
     """
     def select(self, connections):
-        return random.choice(connections)
+        return secrets.choice(connections)
 
 
 class RoundRobinSelector(ConnectionSelector):
@@ -116,7 +116,7 @@ class ConnectionPool(object):
         if randomize_hosts:
             # randomize the connection list to avoid all clients hitting same node
             # after startup/restart
-            random.shuffle(self.connections)
+            secrets.SystemRandom().shuffle(self.connections)
 
         # default timeout after which to try resurrecting a connection
         self.dead_timeout = dead_timeout
@@ -180,7 +180,7 @@ class ConnectionPool(object):
             # also empty. We assume that other threat has resurrected all
             # available connections so we can safely return one at random.
             if force:
-                return random.choice(self.orig_connections)
+                return secrets.choice(self.orig_connections)
             return
 
         try:
@@ -190,7 +190,7 @@ class ConnectionPool(object):
             # other thread has been faster and the queue is now empty. If we
             # are forced, return a connection at random again.
             if force:
-                return random.choice(self.orig_connections)
+                return secrets.choice(self.orig_connections)
             return
 
         if not force and timeout > time.time():
