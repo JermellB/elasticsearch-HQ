@@ -79,8 +79,7 @@ class ConnectionService:
                     if verify_certs is False:
                         LOG.info("Verify Certs is False")
                         response = requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
-                                                timeout=REQUEST_TIMEOUT, verify=False,
-                                                cert=client_cert_credentials)
+                                                timeout=REQUEST_TIMEOUT, verify=True, cert=client_cert_credentials)
                     else:
                         LOG.info("Verify Certs is True")
                         response = requests.get(scheme + "://" + ip + ":" + port, auth=(username, password),
@@ -96,7 +95,7 @@ class ConnectionService:
                     if verify_certs is False:
                         LOG.info("Verify Certs is False")
                         response = requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT,
-                                                verify=False, cert=client_cert_credentials)
+                                                verify=True, cert=client_cert_credentials)
                     else:
                         LOG.info("Verify Certs is True")
                         response = requests.get(scheme + "://" + ip + ":" + port, timeout=REQUEST_TIMEOUT,
